@@ -5,32 +5,13 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var numbers = [Int]()
-    @State private var currentNumber = 1
-
-    var body: some View {
-        NavigationView {
-            VStack {
-                List {
-                    // ForEach provides support for onDelete
-                    ForEach(numbers, id: \.self) {
-                        Text("\($0)")
-                    }
-                    .onDelete(perform: removeRows)
-                }
-                
-                Button("Add Number") {
-                    self.numbers.append(self.currentNumber)
-                    self.currentNumber += 1
-                }
-            }
-            .navigationBarItems(leading: EditButton())
-        }
-
-    }
+    @State private var tapCount = UserDefaults.standard.integer(forKey: "Tap")
     
-    private func removeRows(at offsets: IndexSet) {
-        numbers.remove(atOffsets: offsets)
+    var body: some View {
+        Button("Tap count: \(tapCount)") {
+            self.tapCount += 1
+            UserDefaults.standard.set(self.tapCount, forKey: "Tap")
+        }
     }
 }
 
