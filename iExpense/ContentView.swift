@@ -5,8 +5,17 @@
 import SwiftUI
 
 struct SecondView: View {
+    @Environment(\.presentationMode) var presentationMode
+
+    var name: String
+    
     var body: some View {
-        Text("Second View")
+        VStack {
+            Text("Hello \(name)").padding(20)
+            Button("Dismiss") {
+                self.presentationMode.wrappedValue.dismiss()
+            }
+        }
     }
 }
 
@@ -19,7 +28,7 @@ struct ContentView: View {
             self.showingSheet.toggle()
         }
         .sheet(isPresented: $showingSheet) {
-            SecondView()
+            SecondView(name: "Pete")
         }
     }
 }
