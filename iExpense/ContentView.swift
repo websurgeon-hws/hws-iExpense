@@ -52,6 +52,7 @@ struct ContentView: View {
                         }
                         Spacer()
                         Text("$\(item.amount)")
+                            .expenseAmountStyle(for: item.amount)
                     }
                 }
                 .onDelete(perform: removeItems)
@@ -73,6 +74,34 @@ struct ContentView: View {
     
     private func removeItems(at offsets: IndexSet) {
         expenses.items.remove(atOffsets: offsets)
+    }
+}
+
+extension View {
+    func expenseAmountStyle(for amount: Int) -> some View {
+        self.modifier(ExpenseAmountStyle(amount: amount))
+    }
+}
+
+struct ExpenseAmountStyle: ViewModifier {
+    let amount: Int
+
+    func body(content: Content) -> some View {
+        switch self.amount {
+        case Int.min ..< 10:
+            return content
+                .foregroundColor(.green)
+        case 10 ..< 100:
+            return content
+                .foregroundColor(.orange)
+        case 100 ... Int.max:
+            return content
+                .foregroundColor(.red)
+        default:
+            return content
+                .foregroundColor(.red)
+        }
+
     }
 }
 
